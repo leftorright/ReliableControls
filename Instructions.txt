@@ -1,0 +1,19 @@
+IEventCounter Implements a processor that looks for and counts a specific pattern.
+This solution uses the library Boost.DateTime library which need to be separately-compiled.
+After acquiring and building the boost library, link it to the program.
+
+Because I use OS X this is how I compiled the program:
+ c++ -I /usr/local/Cellar/boost/1.66.0/ IEventCounterTests.cpp -o main \
+ /usr/local/Cellar/boost/1.66.0//lib/libboost_date_time.a
+
+Multi-threading:
+The counters (storing the count values) are atomic objects, in consideration of the fact that
+ParseEvents can be called from multiple threads concurrently.
+
+ParseEvents:
+    the function signature contained a CString type for the deviceID. I don't have access to a windows machine for this
+    project, so I cast it to what I think is equivalent for Unix machines (const char *).
+
+Testing:
+    I provided some unit tests. However, I did not test the multithreaded performance,
+    and I am missing some tests I performed manually.
