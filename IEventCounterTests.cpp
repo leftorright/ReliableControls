@@ -5,6 +5,9 @@
 #include "IEventCounter.h"
 #include <thread>
 
+
+
+
 void test1(IEventCounter *EC) {
     std::cout << "******** Test 1 ********" << std::endl;
     std::cout << "Testing stage 3 (5+min) - 2 - 0" << std::endl;
@@ -62,7 +65,7 @@ void test5(IEventCounter *EC) {
 }
 void test6(IEventCounter *EC) {
     std::cout << "******** Test 6 ********" << std::endl;
-    std::cout << "Many Fault Events" << std::endl;
+    std::cout << "Several Fault Events" << std::endl;
     EC->ParseEvents("1235", "test6.txt");
     if (EC->GetEventCount("1235") == 4) {
         std::cout << "Test 6 Passed" << std::endl;
@@ -75,7 +78,13 @@ void test7(IEventCounter *EC) {
     std::cout << "******** Test 7 ********" << std::endl;
     std::cout << "Many Threads With Same Device ID" << std::endl;
 
+    void (IEventCounter::*fptr)(const char*, const char*) = &IEventCounter::ParseEvents;
 
+    if (EC->GetEventCount("1235") == 4) {
+        std::cout << "Test 7 Passed" << std::endl;
+    } else {
+        std::cout << "Test 7 Failed" << std::endl;
+    }
 }
 int main() {
     IEventCounter EC;
@@ -85,5 +94,6 @@ int main() {
     test4(&EC);
     test5(&EC);
     test6(&EC);
+    test7(&EC);
     return 0;
 }
